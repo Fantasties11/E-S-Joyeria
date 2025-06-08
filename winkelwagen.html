@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Winkelwagen - E&S Joyería</title>
   <style>
     body {
@@ -14,130 +14,122 @@
     }
     header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-    }
-    header button {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
+      margin-bottom: 1rem;
     }
     h1 {
       color: #d4af37;
-      margin: 0;
     }
-    .cart-item {
+    button {
+      background-color: #ffc0cb;
+      color: #333;
+      padding: 0.4rem 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 0.5rem;
+    }
+    .product {
       display: flex;
       align-items: center;
-      background: white;
-      padding: 1rem;
+      background-color: white;
       border-radius: 16px;
-      margin-top: 1rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      max-width: 400px;
     }
-    .cart-item img {
+    .product img {
       width: 80px;
       height: 80px;
       object-fit: cover;
       border-radius: 12px;
       margin-right: 1rem;
     }
-    .cart-item-info {
+    .product-details {
       flex-grow: 1;
     }
-    .cart-item-info h3 {
-      margin: 0 0 0.3rem 0;
-    }
-    .cart-item-info p {
-      margin: 0;
-      color: #666;
-    }
-    .remove-btn {
-      background: #ff4d4d;
-      border: none;
-      color: white;
+    .product-name {
       font-weight: bold;
-      font-size: 20px;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      cursor: pointer;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
     }
-    .checkout-btn {
-      margin-top: 2rem;
-      padding: 1rem 2rem;
-      font-size: 18px;
-      background-color: #d4af37;
+    .product-price {
+      color: #d4af37;
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+    }
+    .back-button {
+      background-color: transparent;
       border: none;
-      border-radius: 12px;
+      font-size: 24px;
       cursor: pointer;
-      color: white;
-    }
-    .empty-msg {
-      margin-top: 2rem;
-      font-style: italic;
-      color: #888;
+      color: #d4af37;
+      margin-bottom: 1rem;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <button onclick="history.back()" title="Terug">&#8592;</button>
-  <h1>Winkelwagen</h1>
-</header>
+  <header>
+    <h1>Winkelwagen</h1>
+  </header>
 
-<div id="cart-items"></div>
+  <button class="back-button" onclick="window.history.back()">← Terug naar winkel</button>
 
-<button class="checkout-btn" onclick="checkout()">Afrekenen via Marktplaats</button>
+  <div id="cart-container"></div>
 
-<script>
-  function loadCart() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const container = document.getElementById('cart-items');
-    container.innerHTML = '';
+  <script>
+    function renderCart() {
+      const cartContainer = document.getElementById('cart-container');
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cartContainer.innerHTML = '';
 
-    if (cart.length === 0) {
-      container.innerHTML = '<p class="empty-msg">Je winkelwagen is leeg.</p>';
-      document.querySelector('.checkout-btn').style.display = 'none';
-      return;
+      if (cart.length === 0) {
+        cartContainer.innerHTML = '<p>Je winkelwagen is leeg.</p>';
+        return;
+      }
+
+      cart.forEach((item, index) => {
+        const productDiv = document.createElement('div');
+        productDiv.className = 'product';
+
+        productDiv.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div class="product-details">
+            <div class="product-name">${item.name}</div>
+            <div class="product-price">${item.price}</div>
+          </div>
+          <div class="actions">
+            <button onclick="removeFromCart(${index})">✖</button>
+            <a href="${getMarktplaatsLink(item.name)}" target="_blank"><button>Koop via Marktplaats</button></a>
+          </div>
+        `;
+
+        cartContainer.appendChild(productDiv);
+      });
     }
 
-    document.querySelector('.checkout-btn').style.display = 'inline-block';
+    function removeFromCart(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
 
-    cart.forEach((item, index) => {
-      const div = document.createElement('div');
-      div.className = 'cart-item';
+    function getMarktplaatsLink(productName) {
+      if (productName === 'Oceaan Blauw') {
+        return 'https://www.marktplaats.nl/seller/view/m2277070098';
+      } else {
+        return '#'; // Of een andere link / message “Link volgt nog”
+      }
+    }
 
-      div.innerHTML = `
-        <img src="${item.image}" alt="${item.name}">
-        <div class="cart-item-info">
-          <h3>${item.name}</h3>
-          <p>Prijs: ${item.price}</p>
-        </div>
-        <button class="remove-btn" onclick="removeItem(${index})" title="Verwijderen">&times;</button>
-      `;
-
-      container.appendChild(div);
-    });
-  }
-
-  function removeItem(index) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.splice(index, 1);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    loadCart();
-  }
-
-  function checkout() {
-    // Verwijs naar je Marktplaats pagina
-    window.location.href = "https://www.marktplaats.nl/seller/view/m2277070098";
-  }
-
-  loadCart();
-</script>
+    // Initial render
+    renderCart();
+  </script>
 
 </body>
 </html>
