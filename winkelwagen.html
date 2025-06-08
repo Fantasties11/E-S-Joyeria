@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Winkelwagen</title>
   <style>
     body {
@@ -28,6 +28,17 @@
       border-radius: 6px;
       margin-right: 1rem;
     }
+    .cart-item span {
+      flex-grow: 1;
+    }
+    .remove-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: #d9534f;
+      margin-left: 10px;
+    }
     .checkout {
       background-color: #d4af37;
       color: white;
@@ -36,6 +47,7 @@
       border-radius: 8px;
       font-size: 1.1rem;
       cursor: pointer;
+      margin-left: 1rem;
     }
   </style>
 </head>
@@ -83,24 +95,38 @@
     }
   ];
 
-  const cartIds = JSON.parse(localStorage.getItem('cart')) || [];
+  let cartIds = JSON.parse(localStorage.getItem('cart')) || [];
   const cartContainer = document.getElementById('cart');
 
-  if (cartIds.length === 0) {
-    cartContainer.innerHTML = "<p>Je winkelwagen is leeg.</p>";
-  } else {
-    cartIds.forEach(id => {
-      const p = products.find(prod => prod.id === id);
+  function renderCart() {
+    cartContainer.innerHTML = '';
+    if (cartIds.length === 0) {
+      cartContainer.innerHTML = "<p>Je winkelwagen is leeg.</p>";
+      return;
+    }
+    cartIds.forEach((id, index) => {
+      const product = products.find(prod => prod.id === id);
       const item = document.createElement('div');
       item.className = "cart-item";
       item.innerHTML = `
-        <img src="${p.img}" alt="${p.name}">
-        <span>${p.name} - €${p.price.toFixed(2)}</span>
-        <a href="${p.marktplaatsLink}" target="_blank"><button class="checkout">Koop op Marktplaats</button></a>
+        <img src="${product.img}" alt="${product.name}">
+        <span>${product.name} - €${product.price.toFixed(2)}</span>
+        <button class="remove-btn" onclick="removeItem(${index})" title="Verwijderen">✖️</button>
+        <a href="${product.marktplaatsLink}" target="_blank">
+          <button class="checkout">Koop op Marktplaats</button>
+        </a>
       `;
       cartContainer.appendChild(item);
     });
   }
+
+  function removeItem(index) {
+    cartIds.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cartIds));
+    renderCart();
+  }
+
+  renderCart();
 </script>
 
 </body>
