@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>E&S Joyería</title>
   <style>
     body {
@@ -26,6 +26,7 @@
       padding: 1rem;
       margin-top: 1rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 320px;
     }
     .product img {
       width: 100%;
@@ -46,7 +47,7 @@
     }
     .winkelwagen-link {
       text-decoration: none;
-      font-size: 20px;
+      font-size: 24px;
     }
   </style>
 </head>
@@ -54,23 +55,23 @@
 
   <header>
     <h1>E&S Joyería</h1>
-    <a class="winkelwagen-link" href="winkelwagen.html">🛒</a>
+    <a class="winkelwagen-link" href="winkelwagen.html" title="Winkelwagen">🛒</a>
   </header>
 
   <p>Handgemaakte armbandjes, extra goedkoop.</p>
 
   <div class="product">
     <h2>Oceaan Blauw</h2>
-    <img src="img/Oceaan-blauw0004.jpeg" alt="Oceaan Blauw armbandje">
+    <img src="img/Oceaan-blauw00004.jpeg" alt="Oceaan Blauw armbandje" />
     <div class="button-group">
       <a href="oceaan-blauw.html"><button>Bekijk</button></a>
-      <button onclick="addToCartAndGo('Oceaan Blauw', 'img/Oceaan-blauw0004.jpeg', '€0,50')">Kopen</button>
+      <button onclick="addToCartAndGo('Oceaan Blauw', 'img/Oceaan-blauw00004.jpeg', '€0,50')">Kopen</button>
     </div>
   </div>
 
   <div class="product">
     <h2>Armbandje 2</h2>
-    <img src="img/armbandje2.jpeg" alt="Armbandje 2">
+    <img src="img/armbandje2.jpeg" alt="Armbandje 2" />
     <div class="button-group">
       <button>Bekijk</button>
       <button onclick="addToCartAndGo('Armbandje 2', 'img/armbandje2.jpeg', '€0,50')">Kopen</button>
@@ -79,7 +80,7 @@
 
   <div class="product">
     <h2>Armbandje 3</h2>
-    <img src="img/armbandje3.jpeg" alt="Armbandje 3">
+    <img src="img/armbandje3.jpeg" alt="Armbandje 3" />
     <div class="button-group">
       <button>Bekijk</button>
       <button onclick="addToCartAndGo('Armbandje 3', 'img/armbandje3.jpeg', '€1,00')">Kopen</button>
@@ -88,7 +89,7 @@
 
   <div class="product">
     <h2>Armbandje 4</h2>
-    <img src="img/armbandje4.jpeg" alt="Armbandje 4">
+    <img src="img/armbandje4.jpeg" alt="Armbandje 4" />
     <div class="button-group">
       <button>Bekijk</button>
       <button onclick="addToCartAndGo('Armbandje 4', 'img/armbandje4.jpeg', '€1,50')">Kopen</button>
@@ -97,22 +98,21 @@
 
   <div class="product">
     <h2>Armbandje 5</h2>
-    <img src="img/armbandje5.jpeg" alt="Armbandje 5">
+    <img src="img/armbandje5.jpeg" alt="Armbandje 5" />
     <div class="button-group">
       <button>Bekijk</button>
       <button onclick="addToCartAndGo('Armbandje 5', 'img/armbandje5.jpeg', '€1,00')">Kopen</button>
     </div>
   </div>
 
-  <script>
-    function addToCartAndGo(name, image, price) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({ name, image, price });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      // Ga direct naar winkelwagen
-      window.location.href = 'winkelwagen.html';
-    }
-  </script>
+<script>
+  function addToCartAndGo(name, image, price) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push({ name, image, price });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    window.location.href = 'winkelwagen.html';
+  }
+</script>
 
 </body>
 </html>
