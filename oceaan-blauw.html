@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oceaan Blauw - E&S Joyería</title>
   <style>
     body {
@@ -11,58 +11,83 @@
       margin: 0;
       padding: 2rem;
       color: #333;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
     }
     header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    header button {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
     }
     h1 {
       color: #d4af37;
-      margin: 0;
+    }
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
     }
     .images img {
       width: 100%;
+      max-width: 300px;
       border-radius: 12px;
-      margin-bottom: 1rem;
     }
-    .description {
-      background: white;
-      padding: 1rem;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    p.description {
       margin-top: 1rem;
+      font-size: 1.1rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      background-color: #ffc0cb;
+      color: #333;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    a.winkelwagen-link {
+      text-decoration: none;
+      font-size: 24px;
+      color: #d4af37;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <button onclick="history.back()" title="Terug">&#8592;</button>
-  <h1>Oceaan Blauw</h1>
-</header>
+  <header>
+    <h1>Oceaan Blauw</h1>
+    <a class="winkelwagen-link" href="winkelwagen.html" title="Winkelwagen">🛒</a>
+  </header>
 
-<div class="images">
-  <img src="img/Oceaan-blauw00001.jpeg" alt="Oceaan Blauw foto 1" />
-  <img src="img/Oceaan-blauw00002.jpeg" alt="Oceaan Blauw foto 2" />
-  <img src="img/Oceaan-blauw00003.jpeg" alt="Oceaan Blauw foto 3" />
-  <img src="img/Oceaan-blauw00004.jpeg" alt="Oceaan Blauw foto 4" />
-</div>
+  <div class="images">
+    <img src="img/Oceaan-blauw00004.jpeg" alt="Oceaan Blauw 1" />
+    <img src="img/Oceaan-blauw00002.jpeg" alt="Oceaan Blauw 2" />
+    <img src="img/Oceaan-blauw00003.jpeg" alt="Oceaan Blauw 3" />
+    <img src="img/Oceaan-blauw00001.jpeg" alt="Oceaan Blauw 4" />
+  </div>
 
-<div class="description">
-  <p>Een Oceaan blauw kleurig armbandje. Handgemaakt en bestelbaar via Marktplaats. Ophalen is mogelijk of we kunnen het afleveren bij je huis als het niet te ver is.</p>
-  <p>Stof: Kunststof of plastic.</p>
-</div>
+  <p class="description">
+    Oceaan-blauw is een kleurig armbandje, met blauwe licht blauwe en doorzichtige kraaltjes. Het is handgemaakt en bestelbaar via Marktplaats, ophalen is mogelijk of we kunnen het afleveren bij je huis als het niet te ver is.<br>
+    Stof: Kunstof of plastic.
+  </p>
+
+  <button onclick="addToCartAndGo()">Koop</button>
+
+  <script>
+    function addToCartAndGo() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      // Check if Oceaan Blauw already in cart to avoid duplicates
+      if (!cart.some(item => item.name === 'Oceaan Blauw')) {
+        cart.push({
+          name: 'Oceaan Blauw',
+          image: 'img/Oceaan-blauw00004.jpeg',
+          price: '€0,50'
+        });
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+      window.location.href = 'winkelwagen.html';
+    }
+  </script>
 
 </body>
 </html>
