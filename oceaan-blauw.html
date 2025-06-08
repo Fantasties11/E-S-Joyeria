@@ -16,15 +16,26 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 1rem;
     }
     h1 {
       color: #d4af37;
+      margin: 0;
+    }
+    .back-arrow {
+      font-size: 2rem;
+      cursor: pointer;
+      color: #d4af37;
+      text-decoration: none;
+      user-select: none;
+    }
+    .back-arrow:hover {
+      color: #a78520;
     }
     .product {
       background-color: white;
       border-radius: 16px;
       padding: 1rem;
-      margin-top: 1rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .product-content {
@@ -77,9 +88,13 @@
     .button-group button:hover {
       background-color: #e048a3;
     }
-    header a {
+    header a.winkelwagen-link {
       font-size: 2rem;
       text-decoration: none;
+      color: #d4af37;
+    }
+    header a.winkelwagen-link:hover {
+      color: #a78520;
     }
 
     /* Desktop */
@@ -112,8 +127,9 @@
 <body>
 
   <header>
+    <a href="index.html" class="back-arrow" title="Terug">&#8592;</a>
     <h1>E&S Joyería</h1>
-    <a href="winkelwagen.html" title="Winkelwagen">🛒</a>
+    <a href="winkelwagen.html" class="winkelwagen-link" title="Winkelwagen">🛒</a>
   </header>
 
   <div class="product">
@@ -127,7 +143,9 @@
       </div>
       <div class="product-info">
         <div class="price-box">Prijs: €0,50</div>
-        <p>Een Oceaan blauw kleurig armbandje. Handgemaakt en bestelbaar via Marktplaats. Ophalen is mogelijk of we kunnen het afleveren bij je huis als het niet te ver is. Stof: Kunstof of plastic.</p>
+        <p>
+          Dit prachtige Oceaan Blauw armbandje is met liefde handgemaakt en straalt een frisse, levendige kleur uit die doet denken aan de diepe zee. Het lichte en duurzame kunststof materiaal maakt het perfect voor dagelijks gebruik en zorgt voor comfort en stijl tegelijk. Bestel eenvoudig via Marktplaats; ophalen is mogelijk, of we kunnen het bij je thuis afleveren als je in de buurt bent. Ideaal voor iedereen die een uniek en betaalbaar accessoire zoekt met een persoonlijk tintje.
+        </p>
         <div class="button-group">
           <button onclick="addToCart('Oceaan Blauw', 'img/Oceaan-blauw00004.jpeg', '€0,50')">Kopen</button>
         </div>
