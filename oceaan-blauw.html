@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Oceaan Blauw - E&S Joyería</title>
+  <title>E&S Joyería</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -20,71 +20,73 @@
     h1 {
       color: #d4af37;
     }
-    .images {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
+    .product {
+      background-color: white;
+      border-radius: 16px;
+      padding: 1rem;
       margin-top: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .images img {
+    .product img {
       width: 100%;
       max-width: 300px;
       border-radius: 12px;
     }
-    p.description {
+    .button-group {
       margin-top: 1rem;
-      font-size: 1.1rem;
     }
-    button {
-      margin-top: 1.5rem;
+    .button-group button {
+      margin-right: 1rem;
       background-color: #ffc0cb;
       color: #333;
-      padding: 0.7rem 1.5rem;
+      padding: 0.5rem 1rem;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 1rem;
     }
-    a.winkelwagen-link {
+    .winkelwagen-link {
       text-decoration: none;
-      font-size: 24px;
-      color: #d4af37;
+      font-size: 20px;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Oceaan Blauw</h1>
-    <a class="winkelwagen-link" href="winkelwagen.html" title="Winkelwagen">🛒</a>
+    <h1>E&S Joyería</h1>
+    <a class="winkelwagen-link" href="winkelwagen.html">🛒</a>
   </header>
 
-  <div class="images">
-    <img src="img/Oceaan-blauw00004.jpeg" alt="Oceaan Blauw 1" />
-    <img src="img/Oceaan-blauw00002.jpeg" alt="Oceaan Blauw 2" />
-    <img src="img/Oceaan-blauw00003.jpeg" alt="Oceaan Blauw 3" />
-    <img src="img/Oceaan-blauw00001.jpeg" alt="Oceaan Blauw 4" />
+  <p>Handgemaakte armbandjes, extra goedkoop.</p>
+
+  <div class="product">
+    <h2>Oceaan Blauw</h2>
+    <img id="mainImage" src="img/Oceaan-blauw0004.jpeg" alt="Oceaan Blauw armbandje">
+    <div class="button-group">
+      <button onclick="addToCart('Oceaan Blauw', 'img/Oceaan-blauw0004.jpeg', '€0,50')">Kopen</button>
+    </div>
+    <p>Een Oceaan blauw kleurig armbandje. Handgemaakt en bestelbaar via Marktplaats. Ophalen is mogelijk of we kunnen het afleveren bij je huis als het niet te ver is. Stof: Kunstof of plastic.</p>
   </div>
 
-  <p class="description">
-    Oceaan-blauw is een kleurig armbandje, met blauwe licht blauwe en doorzichtige kraaltjes. Het is handgemaakt en bestelbaar via Marktplaats, ophalen is mogelijk of we kunnen het afleveren bij je huis als het niet te ver is.<br>
-    Stof: Kunstof of plastic.
-  </p>
-
-  <button onclick="addToCartAndGo()">Koop</button>
-
   <script>
-    function addToCartAndGo() {
+    const images = [
+      'img/Oceaan-blauw0004.jpeg',
+      'img/Oceaan-blauw0002.jpeg',
+      'img/Oceaan-blauw0003.jpeg',
+      'img/Oceaan-blauw0001.jpeg'
+    ];
+    let currentImage = 3;
+    const mainImage = document.getElementById('mainImage');
+
+    mainImage.addEventListener('click', () => {
+      currentImage = (currentImage + 1) % images.length;
+      mainImage.src = images[currentImage];
+    });
+
+    function addToCart(name, image, price) {
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      // Check if Oceaan Blauw already in cart to avoid duplicates
-      if (!cart.some(item => item.name === 'Oceaan Blauw')) {
-        cart.push({
-          name: 'Oceaan Blauw',
-          image: 'img/Oceaan-blauw00004.jpeg',
-          price: '€0,50'
-        });
-        localStorage.setItem('cart', JSON.stringify(cart));
-      }
+      cart.push({ name, image, price });
+      localStorage.setItem('cart', JSON.stringify(cart));
       window.location.href = 'winkelwagen.html';
     }
   </script>
