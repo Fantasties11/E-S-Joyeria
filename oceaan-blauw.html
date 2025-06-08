@@ -34,13 +34,13 @@
       flex-direction: column;
     }
     .product-images {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr;
       gap: 0.5rem;
     }
     .product-images img {
       width: 100%;
-      max-width: 150px;
+      max-width: 100px;
       border-radius: 12px;
     }
     .product-info {
@@ -68,6 +68,9 @@
       .product-content {
         flex-direction: row;
         gap: 2rem;
+      }
+      .product-images {
+        grid-template-columns: repeat(2, 1fr);
       }
       .product-info {
         margin-top: 0;
