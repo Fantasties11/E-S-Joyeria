@@ -102,8 +102,23 @@ footer {
   .product {
     padding: 1rem;
   }
+  
   .img-placeholder {
     height: 120px;
     font-size: 1rem;
   }
 }
+.price {
+  font-weight: 700;
+  color: #d4af37;
+  margin: 0.5rem 0 0 0;
+  font-size: 1rem;
+}
+
+
+
+
+
+
+
+
