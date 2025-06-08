@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Winkelwagen - E&S Joyería</title>
   <style>
     body {
@@ -15,113 +15,129 @@
     header {
       display: flex;
       align-items: center;
-      margin-bottom: 1rem;
+      gap: 1rem;
     }
     header button {
-      font-size: 24px;
-      margin-right: 1rem;
       background: none;
       border: none;
+      font-size: 24px;
       cursor: pointer;
-      color: #d4af37;
     }
     h1 {
       color: #d4af37;
       margin: 0;
     }
-    .item {
+    .cart-item {
       display: flex;
       align-items: center;
-      margin-bottom: 1rem;
       background: white;
       padding: 1rem;
-      border-radius: 12px;
+      border-radius: 16px;
+      margin-top: 1rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 400px;
     }
-    .item img {
+    .cart-item img {
       width: 80px;
       height: 80px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 12px;
       margin-right: 1rem;
     }
-    .item-info {
+    .cart-item-info {
       flex-grow: 1;
     }
+    .cart-item-info h3 {
+      margin: 0 0 0.3rem 0;
+    }
+    .cart-item-info p {
+      margin: 0;
+      color: #666;
+    }
     .remove-btn {
-      background: #ff6b6b;
+      background: #ff4d4d;
       border: none;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
       color: white;
       font-weight: bold;
+      font-size: 20px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
       cursor: pointer;
     }
-    .total {
-      font-weight: bold;
+    .checkout-btn {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
       font-size: 18px;
-      margin-top: 1rem;
+      background-color: #d4af37;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      color: white;
+    }
+    .empty-msg {
+      margin-top: 2rem;
+      font-style: italic;
+      color: #888;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <button onclick="goBack()">←</button>
-    <h1>Winkelwagen</h1>
-  </header>
+<header>
+  <button onclick="history.back()" title="Terug">&#8592;</button>
+  <h1>Winkelwagen</h1>
+</header>
 
-  <div id="cart-items"></div>
-  <div class="total" id="total-price"></div>
+<div id="cart-items"></div>
 
-  <script>
-    function goBack() {
-      window.location.href = 'index.html';
+<button class="checkout-btn" onclick="checkout()">Afrekenen via Marktplaats</button>
+
+<script>
+  function loadCart() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const container = document.getElementById('cart-items');
+    container.innerHTML = '';
+
+    if (cart.length === 0) {
+      container.innerHTML = '<p class="empty-msg">Je winkelwagen is leeg.</p>';
+      document.querySelector('.checkout-btn').style.display = 'none';
+      return;
     }
 
-    function renderCart() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const container = document.getElementById('cart-items');
-      container.innerHTML = '';
-      let total = 0;
+    document.querySelector('.checkout-btn').style.display = 'inline-block';
 
-      cart.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'item';
+    cart.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'cart-item';
 
-        const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.name;
+      div.innerHTML = `
+        <img src="${item.image}" alt="${item.name}">
+        <div class="cart-item-info">
+          <h3>${item.name}</h3>
+          <p>Prijs: ${item.price}</p>
+        </div>
+        <button class="remove-btn" onclick="removeItem(${index})" title="Verwijderen">&times;</button>
+      `;
 
-        const infoDiv = document.createElement('div');
-        infoDiv.className = 'item-info';
-        infoDiv.textContent = `${item.name} - ${item.price}`;
+      container.appendChild(div);
+    });
+  }
 
-        const removeBtn = document.createElement('button');
-        removeBtn.className = 'remove-btn';
-        removeBtn.textContent = '×';
-        removeBtn.onclick = () => {
-          cart.splice(index, 1);
-          localStorage.setItem('cart', JSON.stringify(cart));
-          renderCart();
-        };
+  function removeItem(index) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    loadCart();
+  }
 
-        itemDiv.appendChild(img);
-        itemDiv.appendChild(infoDiv);
-        itemDiv.appendChild(removeBtn);
-        container.appendChild(itemDiv);
+  function checkout() {
+    // Verwijs naar je Marktplaats pagina
+    window.location.href = "https://www.marktplaats.nl/seller/view/m2277070098";
+  }
 
-        // Tel prijs op, prijs is een string zoals "€0,50"
-        const prijsNum = parseFloat(item.price.replace('€', '').replace(',', '.')) || 0;
-        total += prijsNum;
-      });
-
-      document.getElementById('total-price').textContent = `Totaal: €${total.toFixed(2).replace('.', ',')}`;
-    }
-
-    renderCart();
-  </script>
+  loadCart();
+</script>
 
 </body>
 </html>
