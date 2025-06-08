@@ -26,11 +26,26 @@
       padding: 1rem;
       margin-top: 1rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
     }
-    .product img {
+    .product-content {
+      display: flex;
+      flex-direction: column;
+    }
+    .product-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .product-images img {
       width: 100%;
-      max-width: 300px;
+      max-width: 150px;
       border-radius: 12px;
+    }
+    .product-info {
+      flex: 1;
+      margin-top: 1rem;
     }
     .button-group {
       margin-top: 1rem;
@@ -48,6 +63,16 @@
       text-decoration: none;
       font-size: 20px;
     }
+
+    @media (min-width: 768px) {
+      .product-content {
+        flex-direction: row;
+        gap: 2rem;
+      }
+      .product-info {
+        margin-top: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -61,28 +86,23 @@
 
   <div class="product">
     <h2>Oceaan Blauw</h2>
-    <img id="mainImage" src="img/Oceaan-blauw0004.jpeg" alt="Oceaan Blauw armbandje">
-    <div class="button-group">
-      <button onclick="addToCart('Oceaan Blauw', 'img/Oceaan-blauw0004.jpeg', '€0,50')">Kopen</button>
+    <div class="product-content">
+      <div class="product-images">
+        <img src="img/Oceaan-blauw00001.jpeg" alt="Oceaan Blauw armbandje 1">
+        <img src="img/Oceaan-blauw00002.jpeg" alt="Oceaan Blauw armbandje 2">
+        <img src="img/Oceaan-blauw00003.jpeg" alt="Oceaan Blauw armbandje 3">
+        <img src="img/Oceaan-blauw00004.jpeg" alt="Oceaan Blauw armbandje 4">
+      </div>
+      <div class="product-info">
+        <p>Een Oceaan blauw kleurig armbandje. Handgemaakt en bestelbaar via Marktplaats. Ophalen is mogelijk of we kunnen het afleveren bij je huis als het niet te ver is. Stof: Kunstof of plastic.</p>
+        <div class="button-group">
+          <button onclick="addToCart('Oceaan Blauw', 'img/Oceaan-blauw00004.jpeg', '€0,50')">Kopen</button>
+        </div>
+      </div>
     </div>
-    <p>Een Oceaan blauw kleurig armbandje. Handgemaakt en bestelbaar via Marktplaats. Ophalen is mogelijk of we kunnen het afleveren bij je huis als het niet te ver is. Stof: Kunstof of plastic.</p>
   </div>
 
   <script>
-    const images = [
-      'img/Oceaan-blauw00004.jpeg',
-      'img/Oceaan-blauw00002.jpeg',
-      'img/Oceaan-blauw00003.jpeg',
-      'img/Oceaan-blauw00001.jpeg'
-    ];
-    let currentImage = 3;
-    const mainImage = document.getElementById('mainImage');
-
-    mainImage.addEventListener('click', () => {
-      currentImage = (currentImage + 1) % images.length;
-      mainImage.src = images[currentImage];
-    });
-
     function addToCart(name, image, price) {
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
       cart.push({ name, image, price });
