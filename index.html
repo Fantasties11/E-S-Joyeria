@@ -1,59 +1,240 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>E&S Joyería</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>E&S Joyería - Winkelwagen</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff0f5;
+    color: #333;
+    margin: 0; padding: 0;
+  }
+  header {
+    background: #d4af37;
+    color: white;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  .subtitle {
+    text-align: center;
+    font-style: italic;
+    margin-top: 0.3rem;
+    color: #a0522d;
+  }
+  main {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  .products, .cart {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    gap: 1.5rem;
+  }
+  .product, .cart-item {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(212, 175, 55, 0.3);
+    padding: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-bottom: 0.8rem;
+    object-fit: cover;
+    height: 180px;
+    background: #ffe6f0;
+  }
+  h2 {
+    font-size: 1.3rem;
+    margin: 0.5rem 0 0.3rem;
+    color: #d36f94;
+  }
+  .description {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: #666;
+    min-height: 3rem;
+  }
+  .price {
+    font-weight: bold;
+    color: #b8860b;
+    margin-bottom: 0.8rem;
+  }
+  button, .order-link {
+    background: #d4af37;
+    color: white;
+    padding: 0.7rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button:hover, .order-link:hover {
+    background: #b8860b;
+  }
+  .cart-section {
+    margin-top: 3rem;
+  }
+  .empty-cart {
+    text-align: center;
+    font-style: italic;
+    color: #a0522d;
+  }
+  footer {
+    text-align: center;
+    margin: 2rem 0 1rem;
+    font-size: 0.85rem;
+    color: #a0522d;
+  }
+</style>
 </head>
 <body>
-  <header>
-    <h1>E&S Joyería</h1>
-    <p>Schattige armbandjes om te stralen ✨</p>
-  </header>
-  <main>
-<section class="products">
-  <div class="product">
-    <div class="img-placeholder">Foto 1</div>
-    <h2>Armbandje 1</h2>
-    <p>Handgemaakte armbandjes, extra goedkoop.</p>
-    <p class="price">Prijs: €0,50</p>
-    <button>Bestel</button>
-  </div>
-  <div class="product">
-    <div class="img-placeholder">Foto 2</div>
-    <h2>Armbandje 2</h2>
-    <p>Handgemaakte armbandjes, extra goedkoop.</p>
-    <p class="price">Prijs: €0,50</p>
-    <button>Bestel</button>
-  </div>
-  <div class="product">
-    <div class="img-placeholder">Foto 3</div>
-    <h2>Armbandje 3</h2>
-    <p>Handgemaakte armbandjes, extra goedkoop.</p>
-    <p class="price">Prijs: €1,00</p>
-    <button>Bestel</button>
-  </div>
-  <div class="product">
-    <div class="img-placeholder">Foto 4</div>
-    <h2>Armbandje 4</h2>
-    <p>Handgemaakte armbandjes, extra goedkoop.</p>
-    <p class="price">Prijs: €1,50</p>
-    <button>Bestel</button>
-  </div>
-  <div class="product">
-    <div class="img-placeholder">Foto 5</div>
-    <h2>Armbandje 5</h2>
-    <p>Handgemaakte armbandjes, extra goedkoop.</p>
-    <p class="price">Prijs: €1,00</p>
-    <button>Bestel</button>
-  </div>
-</section>
+<header>
+  E&S Joyería
+</header>
+<div class="subtitle">Handgemaakte armbandjes, extra goedkoop</div>
+<main>
+  <section class="products" id="products"></section>
 
-  </main>
-  <footer>
-    <p>© 2025 E&S Joyería</p>
-  </footer>
+  <section class="cart-section">
+    <h2>Winkelwagen</h2>
+    <div class="cart" id="cart"></div>
+  </section>
+</main>
+<footer>
+  &copy; 2025 E&S Joyería
+</footer>
+
+<script>
+  const products = [
+    {
+      id: 1,
+      name: "Oceaan blauw",
+      price: 0.50,
+      img: "https://via.placeholder.com/300x180/5dade2/ffffff?text=Oceaan+Blauw",
+      description: "Beschrijving volgt nog.",
+      marktplaatsLink: "https://www.marktplaats.nl/seller/view/m2277070098"
+    },
+    {
+      id: 2,
+      name: "Naam komt nog",
+      price: 0.50,
+      img: "https://via.placeholder.com/300x180/f8c6d6/ffffff?text=Naam+komt+nog",
+      description: "Beschrijving volgt nog.",
+      marktplaatsLink: "#"
+    },
+    {
+      id: 3,
+      name: "Naam komt nog",
+      price: 1.00,
+      img: "https://via.placeholder.com/300x180/f8c6d6/ffffff?text=Naam+komt+nog",
+      description: "Beschrijving volgt nog.",
+      marktplaatsLink: "#"
+    },
+    {
+      id: 4,
+      name: "Naam komt nog",
+      price: 1.50,
+      img: "https://via.placeholder.com/300x180/f8c6d6/ffffff?text=Naam+komt+nog",
+      description: "Beschrijving volgt nog.",
+      marktplaatsLink: "#"
+    },
+    {
+      id: 5,
+      name: "Naam komt nog",
+      price: 1.00,
+      img: "https://via.placeholder.com/300x180/f8c6d6/ffffff?text=Naam+komt+nog",
+      description: "Beschrijving volgt nog.",
+      marktplaatsLink: "#"
+    }
+  ];
+
+  const productsContainer = document.getElementById('products');
+  const cartContainer = document.getElementById('cart');
+
+  // Laad winkelwagen uit localStorage of maak nieuwe
+  let cart = JSON.parse(localStorage.getItem('es-joyeria-cart')) || [];
+
+  function saveCart() {
+    localStorage.setItem('es-joyeria-cart', JSON.stringify(cart));
+  }
+
+  function renderProducts() {
+    productsContainer.innerHTML = '';
+    products.forEach(product => {
+      const prodDiv = document.createElement('div');
+      prodDiv.className = 'product';
+      prodDiv.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" />
+        <h2>${product.name}</h2>
+        <p class="description">${product.description}</p>
+        <p class="price">Prijs: €${product.price.toFixed(2)}</p>
+        <button data-id="${product.id}">Kopen</button>
+      `;
+      productsContainer.appendChild(prodDiv);
+    });
+  }
+
+  function renderCart() {
+    cartContainer.innerHTML = '';
+    if (cart.length === 0) {
+      cartContainer.innerHTML = '<p class="empty-cart">Je winkelwagen is nog leeg.</p>';
+      return;
+    }
+    cart.forEach(item => {
+      const product = products.find(p => p.id === item.id);
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'cart-item';
+      itemDiv.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" />
+        <h2>${product.name}</h2>
+        <p class="price">Prijs: €${product.price.toFixed(2)}</p>
+        <a href="${product.marktplaatsLink !== '#' ? product.marktplaatsLink : '#'}" target="_blank" class="order-link" ${product.marktplaatsLink === '#' ? 'onclick="alert(\'Link volgt nog!\'); return false;"' : ''}>Bestel via Marktplaats</a>
+        <button data-id="${item.id}" class="remove-btn" style="margin-top: 8px;">Verwijderen</button>
+      `;
+      cartContainer.appendChild(itemDiv);
+    });
+
+    // Voeg event listeners voor verwijderen toe
+    const removeButtons = cartContainer.querySelectorAll('.remove-btn');
+    removeButtons.forEach(btn => {
+      btn.addEventListener('click', e => {
+        const id = parseInt(e.target.getAttribute('data-id'));
+        cart = cart.filter(item => item.id !== id);
+        saveCart();
+        renderCart();
+      });
+    });
+  }
+
+  // Voeg product toe aan winkelwagen
+  productsContainer.addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') {
+      const id = parseInt(e.target.getAttribute('data-id'));
+      if (!cart.some(item => item.id === id)) {
+        cart.push({id});
+        saveCart();
+        renderCart();
+      } else {
+        alert('Dit product staat al in je winkelwagen.');
+      }
+    }
+  });
+
+  renderProducts();
+  renderCart();
+</script>
 </body>
 </html>
