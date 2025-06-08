@@ -2,8 +2,8 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>E&S Joyería</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Oceaan Blauw - E&S Joyería</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -26,87 +26,107 @@
       padding: 1rem;
       margin-top: 1rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
     }
     .product-content {
       display: flex;
       flex-direction: column;
+      gap: 1rem;
     }
     .product-images {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 0.5rem;
+      gap: 0.8rem;
+      justify-content: center;
     }
     .product-images img {
-      width: 100%;
-      max-width: 100px;
+      width: 80vw;
+      max-width: none;
       border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
     .product-info {
-      flex: 1;
-      margin-top: 1rem;
+      background-color: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .button-group {
-      margin-top: 1rem;
+    .price-box {
+      background-color: #d4af37;
+      color: white;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 1.3rem;
+      max-width: 150px;
     }
     .button-group button {
-      margin-right: 1rem;
-      background-color: #ffc0cb;
-      color: #333;
-      padding: 0.5rem 1rem;
+      background-color: #ff69b4;
+      color: white;
+      padding: 0.9rem 1.5rem;
+      font-size: 1.2rem;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+      box-shadow: 0 4px 10px rgba(255,105,180,0.5);
+      transition: background-color 0.3s ease;
     }
-    .winkelwagen-link {
+    .button-group button:hover {
+      background-color: #e048a3;
+    }
+    header a {
+      font-size: 2rem;
       text-decoration: none;
-      font-size: 20px;
     }
 
-@media (min-width: 768px) {
-  .product-content {
-    flex-direction: row;
-    gap: 2rem;
-  }
-  .product-images {
-    grid-template-columns: repeat(2, 1fr);
-    width: 66vw; /* ongeveer 2/3 van het scherm */
-    gap: 1rem;
-  }
-  .product-images img {
-    width: 100%;
-    max-width: none;
-    height: auto;
-    border-radius: 12px;
-  }
-  .product-info {
-    margin-top: 0;
-    flex: 1;
-  }
-}
-
+    /* Desktop */
+    @media (min-width: 768px) {
+      .product-content {
+        flex-direction: row;
+        gap: 2rem;
+      }
+      .product-images {
+        grid-template-columns: repeat(2, 1fr);
+        width: 66vw;
+        gap: 1rem;
+        justify-content: start;
+      }
+      .product-images img {
+        width: 100%;
+      }
+      .product-info {
+        flex: 1;
+        margin-top: 0;
+        max-width: 400px;
+      }
+      .price-box {
+        max-width: none;
+        font-size: 1.5rem;
+      }
+    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>E&S Joyería</h1>
-    <a class="winkelwagen-link" href="winkelwagen.html">🛒</a>
+    <a href="winkelwagen.html" title="Winkelwagen">🛒</a>
   </header>
-
-  <p>Handgemaakte armbandjes, extra goedkoop.</p>
 
   <div class="product">
     <h2>Oceaan Blauw</h2>
     <div class="product-content">
       <div class="product-images">
-        <img src="img/Oceaan-blauw00001.jpeg" alt="Oceaan Blauw armbandje 1">
-        <img src="img/Oceaan-blauw00002.jpeg" alt="Oceaan Blauw armbandje 2">
-        <img src="img/Oceaan-blauw00003.jpeg" alt="Oceaan Blauw armbandje 3">
-        <img src="img/Oceaan-blauw00004.jpeg" alt="Oceaan Blauw armbandje 4">
+        <img src="img/Oceaan-blauw00001.jpeg" alt="Oceaan Blauw armbandje 1" />
+        <img src="img/Oceaan-blauw00002.jpeg" alt="Oceaan Blauw armbandje 2" />
+        <img src="img/Oceaan-blauw00003.jpeg" alt="Oceaan Blauw armbandje 3" />
+        <img src="img/Oceaan-blauw00004.jpeg" alt="Oceaan Blauw armbandje 4" />
       </div>
       <div class="product-info">
+        <div class="price-box">Prijs: €0,50</div>
         <p>Een Oceaan blauw kleurig armbandje. Handgemaakt en bestelbaar via Marktplaats. Ophalen is mogelijk of we kunnen het afleveren bij je huis als het niet te ver is. Stof: Kunstof of plastic.</p>
         <div class="button-group">
           <button onclick="addToCart('Oceaan Blauw', 'img/Oceaan-blauw00004.jpeg', '€0,50')">Kopen</button>
