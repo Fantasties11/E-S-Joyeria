@@ -2,132 +2,126 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Winkelwagen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Winkelwagen - E&S Joyería</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #fff0f5;
+      margin: 0;
       padding: 2rem;
+      color: #333;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    header button {
+      font-size: 24px;
+      margin-right: 1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #d4af37;
     }
     h1 {
       color: #d4af37;
+      margin: 0;
     }
-    .cart-item {
-      background: white;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    .item {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      margin-bottom: 1rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .cart-item img {
+    .item img {
       width: 80px;
-      border-radius: 6px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
       margin-right: 1rem;
     }
-    .cart-item span {
+    .item-info {
       flex-grow: 1;
     }
     .remove-btn {
-      background: transparent;
+      background: #ff6b6b;
       border: none;
-      font-size: 1.3rem;
-      cursor: pointer;
-      color: #d9534f;
-      margin-left: 10px;
-    }
-    .checkout {
-      background-color: #d4af37;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
       color: white;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
+      font-weight: bold;
       cursor: pointer;
-      margin-left: 1rem;
+    }
+    .total {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 1rem;
     }
   </style>
 </head>
 <body>
 
-<h1>Winkelwagen</h1>
-<div id="cart"></div>
+  <header>
+    <button onclick="goBack()">←</button>
+    <h1>Winkelwagen</h1>
+  </header>
 
-<script>
-  const products = [
-    {
-      id: 1,
-      name: "Oceaan blauw",
-      price: 0.50,
-      img: "https://via.placeholder.com/300x180/5dade2/ffffff?text=Oceaan+Blauw",
-      marktplaatsLink: "https://www.marktplaats.nl/seller/view/m2277070098"
-    },
-    {
-      id: 2,
-      name: "Naam komt nog",
-      price: 0.50,
-      img: "https://via.placeholder.com/300x180/f8c6d6/ffffff?text=Armbandje+2",
-      marktplaatsLink: "#"
-    },
-    {
-      id: 3,
-      name: "Naam komt nog",
-      price: 1.00,
-      img: "https://via.placeholder.com/300x180/f2d7d5/ffffff?text=Armbandje+3",
-      marktplaatsLink: "#"
-    },
-    {
-      id: 4,
-      name: "Naam komt nog",
-      price: 1.50,
-      img: "https://via.placeholder.com/300x180/f9e79f/ffffff?text=Armbandje+4",
-      marktplaatsLink: "#"
-    },
-    {
-      id: 5,
-      name: "Naam komt nog",
-      price: 1.00,
-      img: "https://via.placeholder.com/300x180/d5f5e3/ffffff?text=Armbandje+5",
-      marktplaatsLink: "#"
+  <div id="cart-items"></div>
+  <div class="total" id="total-price"></div>
+
+  <script>
+    function goBack() {
+      window.location.href = 'index.html';
     }
-  ];
 
-  let cartIds = JSON.parse(localStorage.getItem('cart')) || [];
-  const cartContainer = document.getElementById('cart');
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const container = document.getElementById('cart-items');
+      container.innerHTML = '';
+      let total = 0;
 
-  function renderCart() {
-    cartContainer.innerHTML = '';
-    if (cartIds.length === 0) {
-      cartContainer.innerHTML = "<p>Je winkelwagen is leeg.</p>";
-      return;
+      cart.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'item';
+
+        const img = document.createElement('img');
+        img.src = item.image;
+        img.alt = item.name;
+
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'item-info';
+        infoDiv.textContent = `${item.name} - ${item.price}`;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = () => {
+          cart.splice(index, 1);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderCart();
+        };
+
+        itemDiv.appendChild(img);
+        itemDiv.appendChild(infoDiv);
+        itemDiv.appendChild(removeBtn);
+        container.appendChild(itemDiv);
+
+        // Tel prijs op, prijs is een string zoals "€0,50"
+        const prijsNum = parseFloat(item.price.replace('€', '').replace(',', '.')) || 0;
+        total += prijsNum;
+      });
+
+      document.getElementById('total-price').textContent = `Totaal: €${total.toFixed(2).replace('.', ',')}`;
     }
-    cartIds.forEach((id, index) => {
-      const product = products.find(prod => prod.id === id);
-      const item = document.createElement('div');
-      item.className = "cart-item";
-      item.innerHTML = `
-        <img src="${product.img}" alt="${product.name}">
-        <span>${product.name} - €${product.price.toFixed(2)}</span>
-        <button class="remove-btn" onclick="removeItem(${index})" title="Verwijderen">✖️</button>
-        <a href="${product.marktplaatsLink}" target="_blank">
-          <button class="checkout">Koop op Marktplaats</button>
-        </a>
-      `;
-      cartContainer.appendChild(item);
-    });
-  }
 
-  function removeItem(index) {
-    cartIds.splice(index, 1);
-    localStorage.setItem('cart', JSON.stringify(cartIds));
     renderCart();
-  }
-
-  renderCart();
-</script>
+  </script>
 
 </body>
 </html>
